@@ -35,9 +35,6 @@ module.exports = class TaskManager {
     //执行所有的 command task
     await this.executeTaskByType(CommandTask.type);
     
-    // 安装结束
-    log(chalk.hex("#DEADED").bold("setup success ~~~"));
-    log(chalk.hex("#7FFF00").bold("happy every day -_-#"));
   }
 
   async executeTaskByType(commandType) {

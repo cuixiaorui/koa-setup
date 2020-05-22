@@ -1,8 +1,17 @@
-## koa-setup
+<h1 align="center">Welcome to koa-setup 👋</h1>
+<p>
+  <a href="https://www.npmjs.com/package/koa-setup" target="_blank">
+    <img alt="Version" src="https://img.shields.io/npm/v/koa-setup.svg">
+  </a>
+  <a href="#" target="_blank">
+    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
+  </a>
+</p>
 
-setup koa
+> koa setup
 
-### feature
+
+## Feature
 
 1. 交互式 setup koa 开发坏境
 2. 支持以下中间件
@@ -11,11 +20,46 @@ setup koa
    - koa-static
    - koa-body
 
-### TODO
+
+## TODO
 
 - [ ] 格式化生成的 index.js
 - [ ] task 支持优先级的概念
 - [ ] 增加 task 组合的概念
   - [ ] 并行
   - [ ] 串行
-- [ ] 抽离整个 task 概念为单独一个库
+- [ ] 抽离整个 task 概念为单独一个
+
+### 🏠 [Homepage](https://github.com/cuixiaorui/koa-setup)
+
+## Install
+
+```sh
+npm install koa-set -g
+```
+
+## Usage
+
+```sh
+koa-set
+```
+
+## Run tests
+
+```sh
+npm  test
+```
+
+## Author
+
+👤 **cuixiaorui**
+
+* Website: beijing
+* Github: [@cuixiaorui](https://github.com/cuixiaorui)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

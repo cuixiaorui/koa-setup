@@ -5,6 +5,8 @@
 //    1. 可交互选择安装
 // 3. index.js 这个文件的模板
 //    1. 需要基于安装的插件动态生成
+const chalk = require("chalk");
+const log = console.log;
 const getOptions = require("./options");
 const path = require("path");
 const MiddlewareTask = require("./middleware-task");
@@ -15,13 +17,13 @@ let options;
 (async () => {
   options = await getOptions();
 
-  console.log(options)
+  console.log(options);
   const taskManager = new TaskManager();
   // 创建项目文件夹
   taskManager.add(createPackageTask());
 
   // 创建入口文件 index.js
-  const code = await createEntryPointCode(options)
+  const code = await createEntryPointCode(options);
   taskManager.add(createEntryPointFileTask(code));
 
   // 创建 npm package.json
@@ -32,7 +34,11 @@ let options;
 
   taskManager.add(installKoa());
 
-  taskManager.execute();
+  await taskManager.execute();
+
+  // 安装结束
+  log(chalk.hex("#7FFF00").bold(`cd ./${options.packageName} && nodemon index.js`));
+  log(chalk.hex("#DEADED").bold("happy every day -_-#"));
 })();
 
 function getRoot() {
