@@ -1,68 +1,63 @@
 #!/usr/bin/env node
 
-console.log("hello koa-setup");
-
 // 1. 在当前目录下创建文件夹
 // 2. 安装插件 - koa koa-router koa-static koa-views
 //    1. 可交互选择安装
 // 3. index.js 这个文件的模板
 //    1. 需要基于安装的插件动态生成
-
-// 实现
-// 1. 基于要安装的插件生成 index.js 模板文件
-// 2. 最后在统一安装所有插件
 const ejs = require("ejs");
-const fs = require("fs");
-const indexTemplate = fs.readFileSync(__dirname + "/template/index.ejs");
+const fs = require("fs-extra");
 const getOptions = require("./options");
+const path = require("path");
+const MiddlewareTask = require("./middleware-task");
+const { FileTask, FolderTask, CommandTask, TaskManager } = require("./task");
+let options;
 
 (async () => {
-  let options = await getOptions();
-  options = handleOptions(options);
-  let indexCode = ejs.render(indexTemplate.toString(), options);
-  // 基于配置生成对应的中间件对象
-  // 获取要安装的插件数据
-  // 还需要收集要创建的文件
-  // 1. code  -> index.js
-  // 2. 创建 static
-  // 3. 创建 views
-  const needInstallMiddlewares = [];
-  const needCreateFileDatas = [];
-  if (options.middleware.koaRouter) {
-    needInstallMiddlewares.push("koa-router");
-  }
+  options = await getOptions();
 
-  if (options.middleware.koaServe) {
-    needInstallMiddlewares.push("koa-static");
-    needCreateFileDatas.push({
-      type: "folder",
-      name: "static",
-    });
-  }
+  const taskManager = new TaskManager();
+  // 创建项目文件夹
+  taskManager.add(createPackageTask());
 
-  if (options.middleware.koaViews) {
-    needInstallMiddlewares.push("koa-views");
-    needCreateFileDatas.push({
-      type: "folder",
-      name: "views",
-    });
-  }
+  // 创建入口文件 index.js
+  let entryPointCode = createEntryPointCode();
+  taskManager.add(createEntryPointFileTask(entryPointCode));
 
-  if (options.middleware.koaBody) {
-    needInstallMiddlewares.push("koa-body");
-  }
+  // 创建 npm package.json
+  taskManager.add(initNpmTask());
 
-  console.log(needInstallMiddlewares)
-  console.log(needCreateFileDatas)
+  // 添加中间件的任务
+  taskManager.add(MiddlewareTask(options.middleware, getRoot()));
 
-
+  taskManager.execute();
 })();
 
-function handleOptions(options) {
-  let result = Object.assign({}, options);
-  result.middleware = options.middleware.reduce((result, val) => {
-    result[val] = true;
-    return result;
-  }, {});
-  return result;
+function getRoot() {
+  return path.resolve(process.cwd(), options.packageName);
+}
+
+function createPackageTask() {
+  return new FolderTask({
+    name: "create package folder",
+    path: getRoot(),
+  });
+}
+
+function initNpmTask() {
+  return new CommandTask({ command: `cd ${getRoot()} && npm init -y` });
+}
+
+function createEntryPointFileTask(entryPointCode) {
+  return new FileTask({
+    name: "create entry point index.js",
+    content: entryPointCode,
+    filename: "index.js",
+    path: getRoot(),
+  });
+}
+
+function createEntryPointCode() {
+  const indexTemplate = fs.readFileSync(__dirname + "/template/index.ejs");
+  return ejs.render(indexTemplate.toString(), options);
 }

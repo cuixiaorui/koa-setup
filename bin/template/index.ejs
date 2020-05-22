@@ -1,37 +1,37 @@
 const Koa = require("koa")
-<% if (middleware.koaRouter) { %>
+<% if (middlewareMap.koaRouter) { %>
 const Router = require("koa-router")
 <% } %>
-<% if (middleware.koaStatic) { %>
+<% if (middlewareMap.koaStatic) { %>
 const serve = require("koa-static")
 <% } %>
-<% if (middleware.koaViews) { %>
+<% if (middlewareMap.koaViews) { %>
 const views = require("koa-views")
 <% } %>
 
-<% if (middleware.koaBody) { %>
+<% if (middlewareMap.koaBody) { %>
 const views = require("koa-body")
 <% } %>
 
 const app = new Koa()
 
-<% if (middleware.koaStatic) { %>
+<% if (middlewareMap.koaStatic) { %>
 app.use(serve(__dirname+"/static"))
 <% } %>
 
-<% if (middleware.koaViews) { %>
+<% if (middlewareMap.koaViews) { %>
 app.use(views(__dirname+"/views",{
     extension: "pug"
 }))
 <% } %>
 
-<% if (middleware.koaBody) { %>
+<% if (middlewareMap.koaBody) { %>
 app.use(koaBody({
     multipart:true
 }))
 <% } %>
 
-<% if (middleware.koaRouter) { %>
+<% if (middlewareMap.koaRouter) { %>
 const router = new Router()
 router.get("/",(ctx)=>{
     ctx.body = "hello <%= packageName %>"
@@ -39,4 +39,4 @@ router.get("/",(ctx)=>{
 app.use(router.routes())
 <% } %>
 
-app.listen('<%= port %>')
+app.listen(<%= port %>)

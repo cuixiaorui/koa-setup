@@ -10,5 +10,15 @@ module.exports = async () => {
     port(defaultOptions),
     selectMiddleware(),
   ]);
-  return answers;
+
+  return handleOptions(answers);
 };
+
+function handleOptions(options) {
+  let result = Object.assign({}, options);
+  result.middlewareMap = options.middleware.reduce((result, val) => {
+    result[val] = true;
+    return result;
+  }, {});
+  return result;
+}
