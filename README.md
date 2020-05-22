@@ -13,6 +13,7 @@ setup koa
 
 ### TODO
 
+- [ ] 格式化生成的 index.js
 - [ ] task 支持优先级的概念
 - [ ] 增加 task 组合的概念
   - [ ] 并行

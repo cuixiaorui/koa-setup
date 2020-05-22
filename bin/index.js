@@ -5,24 +5,24 @@
 //    1. 可交互选择安装
 // 3. index.js 这个文件的模板
 //    1. 需要基于安装的插件动态生成
-const ejs = require("ejs");
-const fs = require("fs-extra");
 const getOptions = require("./options");
 const path = require("path");
 const MiddlewareTask = require("./middleware-task");
+const createEntryPointCode = require("./create-entry-point");
 const { FileTask, FolderTask, CommandTask, TaskManager } = require("./task");
 let options;
 
 (async () => {
   options = await getOptions();
 
+  console.log(options)
   const taskManager = new TaskManager();
   // 创建项目文件夹
   taskManager.add(createPackageTask());
 
   // 创建入口文件 index.js
-  let entryPointCode = createEntryPointCode();
-  taskManager.add(createEntryPointFileTask(entryPointCode));
+  const code = await createEntryPointCode(options)
+  taskManager.add(createEntryPointFileTask(code));
 
   // 创建 npm package.json
   taskManager.add(initNpmTask());
@@ -51,16 +51,11 @@ function initNpmTask() {
   });
 }
 
-function createEntryPointFileTask(entryPointCode) {
+function createEntryPointFileTask(content) {
   return new FileTask({
+    content,
     name: "create entry point index.js",
-    content: entryPointCode,
     filename: "index.js",
     path: getRoot(),
   });
-}
-
-function createEntryPointCode() {
-  const indexTemplate = fs.readFileSync(__dirname + "/template/index.ejs");
-  return ejs.render(indexTemplate.toString(), options);
 }

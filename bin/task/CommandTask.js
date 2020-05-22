@@ -9,7 +9,6 @@ module.exports = class CommandTask extends BaseTask {
   }
 
   execute() {
-    console.log(this.command);
     return exec(this.command);
   }
 };
