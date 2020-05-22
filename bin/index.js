@@ -30,6 +30,8 @@ let options;
   // 添加中间件的任务
   taskManager.add(MiddlewareTask(options.middleware, getRoot()));
 
+  taskManager.add(installKoa());
+
   taskManager.execute();
 })();
 
@@ -41,6 +43,13 @@ function createPackageTask() {
   return new FolderTask({
     name: "create package folder",
     path: getRoot(),
+  });
+}
+
+function installKoa() {
+  return new CommandTask({
+    command: `cd ${getRoot()} && npm i koa`,
+    name: "npm i koa",
   });
 }
 
