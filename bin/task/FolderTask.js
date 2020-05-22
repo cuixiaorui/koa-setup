@@ -3,8 +3,8 @@ const path = require("path");
 const BaseTask = require("./BaseTask");
 module.exports = class FolderTask extends BaseTask {
   static type = "folder";
-  constructor({ path, filename = "" }) {
-    super(FolderTask.type);
+  constructor({ path, filename = "",name }) {
+    super(FolderTask.type,name);
     this.path = path;
     this.filename = filename;
   }

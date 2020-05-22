@@ -4,8 +4,8 @@ const BaseTask = require("./BaseTask");
 
 module.exports = class FileTask extends BaseTask {
   static type = "file";
-  constructor({ path, filename, content }) {
-    super(FileTask.type);
+  constructor({ path, filename, content, name }) {
+    super(FileTask.type, name);
     this.path = path;
     this.filename = filename;
     this.content = content;

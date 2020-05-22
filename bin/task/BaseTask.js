@@ -1,12 +1,14 @@
+module.exports = class BaseTask {
+  constructor(type, name = "") {
+    this.name = name;
+    this.type = type;
+  }
 
-module.exports = class BaseTask{
-    constructor(type) {
-        this.name = ""
-        this.type = type
-    }
+  getType() {
+    return this.type;
+  }
 
-    getType(){
-        return this.type
-    }
-    
-}
+  getName() {
+    return this.name;
+  }
+};

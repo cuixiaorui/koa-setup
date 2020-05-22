@@ -1,4 +1,6 @@
-const {FileTask,FolderTask,CommandTask} = require('./index');
+const { FileTask, FolderTask, CommandTask } = require("./index");
+const chalk = require("chalk");
+const log = console.log;
 module.exports = class TaskManager {
   constructor() {
     this.taskList = [];
@@ -32,11 +34,16 @@ module.exports = class TaskManager {
 
     //执行所有的 command task
     await this.executeTaskByType(CommandTask.type);
+    
+    // 安装结束
+    log(chalk.hex("#DEADED").bold("setup success ~~~"));
+    log(chalk.hex("#7FFF00").bold("happy every day -_-#"));
   }
 
   async executeTaskByType(commandType) {
     const commandTasks = this.getTasksByType(commandType);
     for (const task of commandTasks) {
+      log(chalk.blue("当前执行的任务：") + chalk.red(task.name));
       await task.execute();
     }
   }

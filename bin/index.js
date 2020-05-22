@@ -45,7 +45,10 @@ function createPackageTask() {
 }
 
 function initNpmTask() {
-  return new CommandTask({ command: `cd ${getRoot()} && npm init -y` });
+  return new CommandTask({
+    command: `cd ${getRoot()} && npm init -y`,
+    name: "npm init -y",
+  });
 }
 
 function createEntryPointFileTask(entryPointCode) {
