@@ -35,13 +35,13 @@
 ## Install
 
 ```sh
-npm install koa-set -g
+npm install koa-setup -g
 ```
 
 ## Usage
 
 ```sh
-koa-set
+koa-setup
 ```
 
 ## Run tests
