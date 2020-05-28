@@ -38,6 +38,7 @@
 npm install koa-setup -g
 ```
 
+> <span style="color:red">注意 nodejs 版本必须大于 12 </span>
 ## Usage
 
 ```sh
